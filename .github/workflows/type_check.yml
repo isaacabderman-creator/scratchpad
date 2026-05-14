@@ -1,0 +1,22 @@
+name: Type check with mypy
+on: 
+  push
+jobs:
+  type_check:
+    name: Type check with mypy
+    runs-on: ubuntu-slim
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip' 
+      - name: Install mypy
+        run: |
+          pip install -r requirements.txt
+          pip install mypy types-scp # scp often requires explicit type stubs
+
+      - name: Run mypy
+        run: mypy .
